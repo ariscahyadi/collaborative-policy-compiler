@@ -14,10 +14,8 @@
 #
 import re
 import socket
-
 import math
 import binascii
-import codecs
 
 '''
 This package contains several helper functions for encoding to and decoding from byte strings:
@@ -34,10 +32,6 @@ def matchesMac(mac_addr_string):
 
 
 def encodeMac(mac_addr_string):
-    #print(mac_addr_string.replace(':', ''))
-    #return mac_addr_string.replace(':', '').decode('hex')
-    #return (mac_addr_string.replace(':', '').encode()).hex()
-    #return codecs.encode(mac_addr_string.replace(':', '').encode(), 'hex')
     return binascii.unhexlify(mac_addr_string.replace(':', ''))
 
 
@@ -67,10 +61,8 @@ def bitwidthToBytes(bitwidth):
 def encodeNum(number, bitwidth):
     byte_len = bitwidthToBytes(bitwidth)
     num_str = '%x' % number
-    #print(num_str)
     if number >= 2 ** bitwidth:
         raise Exception("Number, %d, does not fit in %d bits" % (number, bitwidth))
-    #return ('0' * (byte_len * 2 - len(num_str)) + num_str).decode('hex')
     return binascii.unhexlify(('0' * (byte_len * 2 - len(num_str)) + num_str))
 
 

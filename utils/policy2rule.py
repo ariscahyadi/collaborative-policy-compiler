@@ -1,33 +1,15 @@
-import helper
+import p4libs.helper as helper
+import utils.utils as utils
 import ipaddress
 
 
-def convert_any_to_zero(criteria):
-    """
-    Function to convert 'any' criteria into 0 value
-    :param criteria: criteria with any or 0 value
-    :return: criteria: with only 0 value
-    """
-
-    if criteria == "any" or criteria == "0":
-        criteria = "0"
-    return criteria
-
-
-def convert_name_to_protocol_number(criteria):
-    """
-    Function to convert 'tcp' or 'udp' criteria into 17 or 6 value
-    :param criteria: criteria with 'tcp' or 'udp' or 17 or 6 value
-    :return: criteria: with only 17 and 6 value
-    """
-
-    if criteria == "tcp" or criteria == "17":
-        criteria = "17"
-    elif criteria == "udp" or criteria == "6":
-        criteria = "6"
-    else:
-        print("Protocol Error")
-    return criteria
+'''
+This package is used to:
+- aggregate the policy
+- group the policy based on the similar header
+- optimize the policy to remove overlapping (port number or IP address)
+- generate rules based on the optimized policy
+'''
 
 
 def rule_generator(ipProtocol, srcPort, dstPort, srcAddr, dstAddr):
@@ -45,9 +27,9 @@ def rule_generator(ipProtocol, srcPort, dstPort, srcAddr, dstAddr):
     p4info_help = helper.P4InfoHelper("data/firewall.p4.p4info.txt")
     srcAddr = srcAddr.split("/")
     dstAddr = dstAddr.split("/")
-    ipProtocol = convert_name_to_protocol_number(ipProtocol)
-    srcPort = convert_any_to_zero(srcPort)
-    dstPort = convert_any_to_zero(dstPort)
+    ipProtocol = utils.convert_name_to_protocol_number(ipProtocol)
+    srcPort = utils.convert_any_to_zero(srcPort)
+    dstPort = utils.convert_any_to_zero(dstPort)
     table_entry = p4info_help.buildTableEntry(
         table_name="MyIngress.ipv4_lpm",
         match_fields={
@@ -142,9 +124,9 @@ def policy_optimizer(aggregate_policy):
 
     for index in range(len(criterion)):
         criteria = criterion[index].split(',')
-        header = convert_name_to_protocol_number(criteria[1]) + "," \
-            + convert_any_to_zero(criteria[2]) + "," \
-            + convert_any_to_zero(criteria[3])
+        header = utils.convert_name_to_protocol_number(criteria[1]) + "," \
+            + utils.convert_any_to_zero(criteria[2]) + "," \
+            + utils.convert_any_to_zero(criteria[3])
         tcp_header.append(header)
         src_address.append(criteria[4])
         dst_address.append(criteria[5])

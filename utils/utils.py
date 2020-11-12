@@ -1,4 +1,6 @@
-
+"""
+Utility for formatting and checking the policy criterion/criteria
+"""
 
 def convert_any_to_zero(criteria):
     """

@@ -1,6 +1,6 @@
-import policy_checker
-import rule2policy
-import policy2rule
+import utils.policy_checker as policy_checker
+import utils.rule2policy as rule2policy
+import utils.policy2rule as policy2rule
 
 
 # Input Policy from two sites (Site-A and Site-B)
@@ -35,9 +35,6 @@ print("")
 print("The valid policy criterion are: ")
 for i in range(len(validPolicy)):
     print("| %d | %s |" % (i, validPolicy[i]))
-
-#print("Checking policy B criterion .... ")
-#policy_checker.intra_policy_check2(list(policyB), matchedPolicy)
 
 
 # Generate policy from existing rules
