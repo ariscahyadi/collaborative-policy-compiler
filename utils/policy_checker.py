@@ -64,10 +64,16 @@ def ip_address_overlap_check(address_list, index_list):
                             != "255.255.255.255":
                         print("IP address %s and %s are overlap, so policy "
                               "criterion %s and %s are overlap"
-                              % (ipaddr_one, ipaddr_two,index_one, index_two))
+                              % (ipaddr_one, ipaddr_two, index_one, index_two))
 
 
 def intra_policy_check(site_policy, matched_policy):
+    """
+    Function to check policy in a single site
+    :param site_policy: site policy to be checked
+    :param matched_policy: matching policy between two sites
+    :return: only valid policy (without overlapping and invalid address)
+    """
 
     site_criterion = [item for sublist in site_policy for item in sublist]
     matched_header = list()
@@ -121,3 +127,19 @@ def intra_policy_check(site_policy, matched_policy):
                 valid_policy.append(','.join(criteria))
 
     return valid_policy
+
+
+def read_policy_input(filename):
+    """
+    Read policy from file input
+    :param filename: the name of file contains the policy
+    :return: list of policy
+    """
+
+    with open(filename) as policy_input:
+        policy = []
+        for criterion in policy_input:
+            criterion = criterion.strip()
+            policy.append(criterion)
+
+        return policy

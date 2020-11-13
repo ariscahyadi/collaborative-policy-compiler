@@ -12,6 +12,7 @@ def decodeIPv4(encoded_ip_addr):
     :param encoded_ip_addr: IP address in IP format
     :return: string of IP address
     """
+
     return socket.inet_ntoa(encoded_ip_addr)
 
 
@@ -21,6 +22,7 @@ def encodeIPv4(ip_addr_string):
     :param ip_addr_string: string of IP address
     :return: IP address
     """
+
     return socket.inet_aton(ip_addr_string)
 
 
@@ -30,6 +32,7 @@ def bitwidthToBytes(bitwidth):
     :param bitwidth: total number of bits
     :return: bytes
     """
+
     return int(math.ceil(bitwidth / 8.0))
 
 
@@ -40,6 +43,7 @@ def encodeNum(number, bitwidth):
     :param bitwidth: total number of bit to encode
     :return:
     """
+
     byte_len = bitwidthToBytes(bitwidth)
     num_str = '%x' % number
     if number >= 2 ** bitwidth:
@@ -53,6 +57,7 @@ def decodeNum(encoded_number):
     :param encoded_number: hexadecimal value
     :return: integer value
     """
+
     temp = codecs.encode(encoded_number, 'hex_codec')
     return int(temp, 16)
 
@@ -63,6 +68,7 @@ def rule_table_builder(protobuf_input):
     :param protobuf_input: response in protobuf format
     :return: P4 table of protobuf message
     """
+
     p4table = p4runtime_pb2.TableEntry()
     with open(protobuf_input) as p4runtime_f:
         google.protobuf.text_format.Merge(p4runtime_f.read(), p4table)
@@ -75,6 +81,7 @@ def rule_parser(p4table):
     :param p4table: P4 table contains P4 rules
     :return: policy criterion
     """
+
     criterion = ""
     for entry in p4table.match:
         i = 0

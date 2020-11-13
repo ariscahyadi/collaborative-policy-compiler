@@ -44,7 +44,7 @@ def rule_generator(ipProtocol, srcPort, dstPort, srcAddr, dstAddr):
             "dstAddr": "00:00:00:00:00:01",
             "port": 1
         })
-    print(table_entry)
+    return str(table_entry)
 
 
 def policy_to_rule(policy):
@@ -52,12 +52,18 @@ def policy_to_rule(policy):
     Function to generate P4 rules from multiple entries of policy criterion
     :param policy: aggregated and optimized policy
     """
+
     criterion = [item for sublist in policy for item in sublist]
+    rules = ""
+
     for index in range(len(criterion)):
         criteria = criterion[index].split(',')
-        rule_generator(criteria[1], criteria[2],
-                       criteria[3], criteria[4], criteria[5])
+        rule = rule_generator(criteria[1], criteria[2],
+                              criteria[3], criteria[4], criteria[5])
+        rules = rules + rule
+        print(rules)
 
+    return rules
 
 def aggregate_ip_address(src_address, dst_address):
     """
@@ -93,6 +99,7 @@ def check_duplicate_header(header):
     :param header:
     :return: duplicated header
     """
+
     duplicate_header = dict()
     index = 0
     for item in header:

@@ -1,17 +1,15 @@
 import utils.policy_checker as policy_checker
 import utils.rule2policy as rule2policy
 import utils.policy2rule as policy2rule
+import os
 
 
 # Input Policy from two sites (Site-A and Site-B)
 
-policyA = [['accept,tcp,any,22,10.1.1.10/32,172.16.1.10/32'],
-           ['accept,tcp,22,any,172.16.1.10/32,10.1.1.10/32'],
-           ['accept,tcp,any,22,10.1.0.0/16,172.16.1.10/32']]
-policyB = [['accept,tcp,any,22,10.1.1.10/32,172.16.1.10/32'],
-           ['accept,tcp,22,any,172.16.1.10/32,10.1.1.10/32'],
-           ['accept,tcp,any,22,172.16.1.10/32,0.0.0.0/0'],
-           ['accept,tcp,22,any,0.0.0.0/0,172.16.1.10/32']]
+policyA = list(map(lambda x: [x],
+                   policy_checker.read_policy_input("data/policyA.txt")))
+policyB = list(map(lambda x: [x],
+                   policy_checker.read_policy_input("data/policyB.txt")))
 
 
 # Policy checking between sites
@@ -30,7 +28,7 @@ print("")
 print("Intra-site Policy checking for invalid and overlap criterion ......")
 print("")
 print("Checking policy A criterion .... ")
-validPolicy = policy_checker.intra_policy_check(list(policyA), matchedPolicy)
+validPolicy = policy_checker.intra_policy_check(policyA, matchedPolicy)
 print("")
 print("The valid policy criterion are: ")
 for i in range(len(validPolicy)):
@@ -44,7 +42,7 @@ print("Build policy from existing device rules ......")
 print("")
 print("Existing policy from the device rules are: ")
 
-existingRule = rule2policy.rule_table_builder("data/response.txt")
+existingRule = rule2policy.rule_table_builder("data/existing_rules.txt")
 ruleCriterion = rule2policy.rule_parser(existingRule)
 rulePolicy = rule2policy.rule_to_policy_builder(ruleCriterion)
 
@@ -60,6 +58,7 @@ compiledPolicy = policy_checker.\
 for i in range(len(compiledPolicy)):
     print("| %d | %s |" % (i, compiledPolicy[i]))
 
+
 # Optimize the policy
 
 print("")
@@ -69,10 +68,17 @@ print("Optimized policy are: ")
 optimizePolicy = policy2rule.policy_optimizer(aggregatePolicy)
 optimizePolicy = list(map(lambda x: [x], optimizePolicy))
 
+
 # Compiled Policy into New Rules
+
 print("")
 print("Generating the new rules for the device ...... ")
 print("New Generated rules are: ")
 print("")
+print(policy2rule.policy_to_rule(list(optimizePolicy)))
 
-policy2rule.policy_to_rule(list(optimizePolicy))
+
+# Save new rules into file
+
+with open(os.path.join('data/', 'generated_rules.txt'), "w") as output_file:
+    output_file.write(policy2rule.policy_to_rule(list(optimizePolicy)))

@@ -11,6 +11,7 @@ def convert_any_to_zero(criteria):
 
     if criteria == "any" or criteria == "0":
         criteria = "0"
+
     return criteria
 
 
@@ -27,6 +28,7 @@ def convert_name_to_protocol_number(criteria):
         criteria = "6"
     else:
         print("Protocol Error")
+
     return criteria
 
 
@@ -37,6 +39,7 @@ def check_duplicate_header(header):
     :param header:
     :return: duplicated header
     """
+
     duplicate_header = dict()
     index = 0
     for item in header:
@@ -49,6 +52,7 @@ def check_duplicate_header(header):
 
     duplicate_header = {key: value for key, value in
                         duplicate_header.items() if value[0] > 1}
+
     return duplicate_header
 
 
