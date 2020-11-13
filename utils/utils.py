@@ -2,6 +2,7 @@
 Utility for formatting and checking the policy criterion/criteria
 """
 
+
 def convert_any_to_zero(criteria):
     """
     Function to convert 'any' criteria into 0 value

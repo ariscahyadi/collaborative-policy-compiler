@@ -18,7 +18,7 @@ def decodeIPv4(encoded_ip_addr):
 
 def encodeIPv4(ip_addr_string):
     """
-    Fucntio to convert IP address from string format
+    Function to convert IP address from string format
     :param ip_addr_string: string of IP address
     :return: IP address
     """

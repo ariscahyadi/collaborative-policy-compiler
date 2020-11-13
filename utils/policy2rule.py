@@ -65,6 +65,7 @@ def policy_to_rule(policy):
 
     return rules
 
+
 def aggregate_ip_address(src_address, dst_address):
     """
     Function to aggregate overlapping IP addresses into subnet

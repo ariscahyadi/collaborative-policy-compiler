@@ -3,7 +3,8 @@ import utils.utils as utils
 
 
 def inter_policy_matching(policy_one, policy_two):
-    """Function to match each criteria between two policies
+    """
+    Function to match each criteria between two policies
     :param policy_one: first policy input
     :param policy_two: second policy input
     :return: intersection set of the policies
@@ -16,7 +17,8 @@ def inter_policy_matching(policy_one, policy_two):
 
 
 def str_to_bin(ip_address):
-    """Function to convert IP address from string into binary format
+    """
+    Function to convert IP address from string into binary format
     :param ip_address: IP address in string
     :return: IP address in binary
     """
@@ -45,7 +47,8 @@ def xor_operation(ip_bit_one, ip_bit_two):
 
 
 def ip_address_overlap_check(address_list, index_list):
-    """ Function to check an overlapping bit IP address
+    """
+    Function to check an overlapping bit IP address
     :param address_list: list of IPv4 (source/destination) address
     :param index_list: policy index where the IP is exist
     :return:
