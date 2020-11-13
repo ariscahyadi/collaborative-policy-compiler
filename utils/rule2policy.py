@@ -1,7 +1,7 @@
 import socket
 import google.protobuf.text_format
-import p4runtime_pb2
-import helper
+import p4libs.p4runtime_pb2 as p4runtime_pb2
+import p4libs.helper as helper
 import math
 import codecs
 

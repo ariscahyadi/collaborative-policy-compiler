@@ -1,5 +1,5 @@
 import ipaddress
-import utils
+import utils.utils as utils
 
 
 def inter_policy_matching(policy_one, policy_two):
@@ -66,58 +66,6 @@ def ip_address_overlap_check(address_list, index_list):
                               "criterion %s and %s are overlap"
                               % (ipaddr_one, ipaddr_two,index_one, index_two))
 
-    #for j in range(address_length):
-    #    for k in range(address_length):
-    #        if j != k:
-    #            if xor_operation(str_to_bin(address_list[j]),
-    #                             str_to_bin(address_list[k])) != "":
-    #                print("Policy criterion %s and %s are overlap"
-    #                      % (address_list[j], address_list[k]))
-
-
-#def intra_policy_check(policy_one):
-#   """Function to check an overlapping IP address in the policy
-#    :param policy_one: First policy
-#    :return: Yes or No
-#    """
-
-#    src_address = list()
-#    dst_address = list()
-#    criterion_index_src_addr = list()
-#    criterion_index_dst_addr = list()
-
-#    criterion = [item for sublist in policy_one for item in sublist]
-
-#    for index in range(len(criterion)):
-#        print("| %d | %s |" % (index, criterion[index]))
-
-#    print("")
-#    print("Checking the invalid address .....")
-
-#    for index in range(len(criterion)):
-#        criteria = criterion[index].split(',')
-#        if criteria[4] != "0.0.0.0/0":
-#            src_address.append(criteria[4])
-#            criterion_index_src_addr.append(index)
-#        else:
-#            print("Found invalid address %s in policy criterion %d"
-#                  % (criteria[4], index))
-
-#        if criteria[5] != "0.0.0.0/0":
-#            dst_address.append(criteria[5])
-#            criterion_index_dst_addr.append(index)
-#        else:
-#            print("Found invalid address %s in policy criterion %d"
-#                  % (criteria[5], index))
-
-#    print("")
-#    print("Checking the overlapping source address .....")
-#    ip_address_overlap_check(src_address, criterion_index_src_addr)
-#    print("")
-#    print("Checking the overlapping destination address .....")
-#    ip_address_overlap_check(dst_address, criterion_index_dst_addr)
-#    print("")
-
 
 def intra_policy_check(site_policy, matched_policy):
 
@@ -173,10 +121,3 @@ def intra_policy_check(site_policy, matched_policy):
                 valid_policy.append(','.join(criteria))
 
     return valid_policy
-
-
-
-
-
-
-

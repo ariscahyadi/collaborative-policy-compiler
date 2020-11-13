@@ -13,12 +13,10 @@
 # limitations under the License.
 #
 import re
-
 import google.protobuf.text_format
-import p4runtime_pb2
-import p4info_pb2
-import socket
-import convert
+import p4libs.p4runtime_pb2 as p4runtime_pb2
+import p4libs.p4info_pb2 as p4info_pb2
+import p4libs.convert as convert
 
 class P4InfoHelper(object):
     def __init__(self, p4_info_filepath):
