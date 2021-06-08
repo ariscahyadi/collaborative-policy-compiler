@@ -81,66 +81,53 @@ def intra_policy_check(site_policy, matched_policy):
     :return: only valid policy (without overlapping and invalid address)
     """
 
-    site_criterion = [item for sublist in site_policy for item in sublist]
-    matched_header = list()
-    matched_src_addr = list()
-    matched_dst_addr = list()
+    from itertools import product
+
+    class Policy:
+        action: str
+        header: str
+        ip_src: ipaddress.IPv4Network
+        ip_dst: ipaddress.IPv4Network
+
+        def __init__(self, policy):
+            criteria = policy.split(",")
+
+            self.action = criteria[0]
+            self.header = ",".join(
+                [
+                    utils.convert_name_to_protocol_number(criteria[1]),
+                    utils.convert_any_to_zero(criteria[2]),
+                    utils.convert_any_to_zero(criteria[3]),
+                ]
+            )
+            self.ip_src = ipaddress.IPv4Network(criteria[4])
+            self.ip_dst = ipaddress.IPv4Network(criteria[5])
+
+        def __str__(self):
+            return ",".join(
+                [self.action, self.header, str(self.ip_src), str(self.ip_dst)]
+            )
+
+    matched = [Policy(policy) for policy in matched_policy]
+    site = [Policy(item) for sublist in site_policy for item in sublist]
+
     valid_policy = list()
 
-    for index in range(len(matched_policy)):
-        criteria = matched_policy[index].split(",")
-        header = (
-            utils.convert_name_to_protocol_number(criteria[1])
-            + ","
-            + utils.convert_any_to_zero(criteria[2])
-            + ","
-            + utils.convert_any_to_zero(criteria[3])
-        )
-        matched_header.append(header)
-        matched_src_addr.append(criteria[4])
-        matched_dst_addr.append(criteria[5])
+    for policy_s, policy_m in product(site, matched):
+        if policy_s.header != policy_m.header:
+            continue
 
-    for index in range(len(site_criterion)):
+        if policy_m.ip_src.overlaps(policy_s.ip_src):
+            if policy_m.ip_src != policy_s.ip_src:
+                print("%s is overlap with %s" % (policy_m.ip_src, policy_s.ip_src))
+                continue
 
-        criteria = site_criterion[index].split(",")
-        header = (
-            utils.convert_name_to_protocol_number(criteria[1])
-            + ","
-            + utils.convert_any_to_zero(criteria[2])
-            + ","
-            + utils.convert_any_to_zero(criteria[3])
-        )
+        if policy_m.ip_dst.overlaps(policy_s.ip_dst):
+            if policy_m.ip_dst != policy_s.ip_dst:
+                print("%s is overlap with %s" % (policy_m.ip_dst, policy_s.ip_dst))
+                continue
 
-        for index2 in range(len(matched_policy)):
-
-            if str(header) == matched_header[index2]:
-                ip_src = criteria[4]
-                ip_dst = criteria[5]
-
-                if ip_src == "0.0.0.0/0" or ip_dst == "0.0.0.0/0":
-                    print("One of the %s or %s is invalid" % (ip_src, ip_dst))
-                    continue
-                if ipaddress.IPv4Network(
-                    matched_src_addr[index2]
-                ) not in ipaddress.IPv4Network(ip_src):
-
-                    if str(ipaddress.ip_network(ip_src).netmask) != "255.255.255.255":
-                        print(
-                            "%s is overlap with %s" % (matched_src_addr[index2], ip_src)
-                        )
-                        continue
-
-                if ipaddress.IPv4Network(
-                    matched_dst_addr[index2]
-                ) not in ipaddress.IPv4Network(ip_dst):
-
-                    if str(ipaddress.ip_network(ip_dst).netmask) != "255.255.255.255":
-                        print(
-                            "%s is overlap with %s" % (matched_dst_addr[index], ip_dst)
-                        )
-                        continue
-
-                valid_policy.append(",".join(criteria))
+        valid_policy.append(str(policy_s))
 
     return valid_policy
 
