@@ -61,7 +61,7 @@ print("")
 print("Optimizing the aggregated policy .....")
 print("Optimized policy are: ")
 
-optimizePolicy = policy2rule.policy_optimizer(aggregatePolicy)
+optimizePolicy = policy2rule.policy_optimizer([[x] for x in compiledPolicy])
 optimizePolicy = list(map(lambda x: [x], optimizePolicy))
 
 
