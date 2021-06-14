@@ -51,10 +51,8 @@ def check_duplicate_header(header):
             duplicate_header[item] = [1, [index]]
         index += 1
 
-    duplicate_header = {key: value for key, value in
-                        duplicate_header.items() if value[0] > 1}
+    duplicate_header = {
+        key: value for key, value in duplicate_header.items() if value[0] > 1
+    }
 
     return duplicate_header
-
-
-
