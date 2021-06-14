@@ -23,10 +23,10 @@ def convert_name_to_protocol_number(criteria):
     :return: criteria: with only 17 and 6 value
     """
 
-    if criteria == "tcp" or criteria == "17":
-        criteria = "17"
-    elif criteria == "udp" or criteria == "6":
+    if criteria == "tcp" or criteria == "6":
         criteria = "6"
+    elif criteria == "udp" or criteria == "17":
+        criteria = "17"
     else:
         print("Protocol Error")
 
