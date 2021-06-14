@@ -157,7 +157,10 @@ def policy_optimizer(aggregate_policy):
         key: value for key, value in duplicate_header.items() if value[0] > 1
     }
 
-    new_policy = list()
+    new_policy = [
+        criterion[value[1][0]] for value in duplicate_header.values() if value[0] == 1
+    ]
+
 
     for key, value in duplicate_tcp_header.items():
         tcp_header_group = list()
