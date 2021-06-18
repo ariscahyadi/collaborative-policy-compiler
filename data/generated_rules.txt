@@ -2,7 +2,7 @@ table_id: 33574068
 match {
   field_id: 1
   exact {
-    value: "\021"
+    value: "\006"
   }
 }
 match {
@@ -27,53 +27,7 @@ match {
 match {
   field_id: 5
   lpm {
-    value: "\254\020\001\010"
-    prefix_len: 30
-  }
-}
-action {
-  action {
-    action_id: 16799317
-    params {
-      param_id: 1
-      value: "\000\000\000\000\000\001"
-    }
-    params {
-      param_id: 2
-      value: "\000\001"
-    }
-  }
-}
-table_id: 33574068
-match {
-  field_id: 1
-  exact {
-    value: "\021"
-  }
-}
-match {
-  field_id: 2
-  exact {
-    value: "\000\026"
-  }
-}
-match {
-  field_id: 3
-  exact {
-    value: "\000\000"
-  }
-}
-match {
-  field_id: 4
-  lpm {
-    value: "\254\020\001\t"
-    prefix_len: 32
-  }
-}
-match {
-  field_id: 5
-  lpm {
-    value: "\n\001\001\n"
+    value: "\254\020\001\n"
     prefix_len: 32
   }
 }
@@ -94,7 +48,7 @@ table_id: 33574068
 match {
   field_id: 1
   exact {
-    value: "\021"
+    value: "\006"
   }
 }
 match {

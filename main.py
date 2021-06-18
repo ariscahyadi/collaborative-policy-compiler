@@ -6,10 +6,8 @@ import os
 
 # Input Policy from two sites (Site-A and Site-B)
 
-policyA = list(map(lambda x: [x],
-                   policy_checker.read_policy_input("data/policyA.txt")))
-policyB = list(map(lambda x: [x],
-                   policy_checker.read_policy_input("data/policyB.txt")))
+policyA = list(map(lambda x: [x], policy_checker.read_policy_input("data/policyA.txt")))
+policyB = list(map(lambda x: [x], policy_checker.read_policy_input("data/policyB.txt")))
 
 
 # Policy checking between sites
@@ -50,11 +48,9 @@ rulePolicy = rule2policy.rule_to_policy_builder(ruleCriterion)
 # Combine the matched policy and existing rules
 
 print("")
-print("The aggregate policy criterion from matched policy "
-      "and existing rules are : ")
+print("The aggregate policy criterion from matched policy " "and existing rules are : ")
 aggregatePolicy = rulePolicy + list(map(lambda x: [x], validPolicy))
-compiledPolicy = policy_checker.\
-    intra_policy_check(list(aggregatePolicy), validPolicy)
+compiledPolicy = policy_checker.intra_policy_check(list(aggregatePolicy), validPolicy)
 for i in range(len(compiledPolicy)):
     print("| %d | %s |" % (i, compiledPolicy[i]))
 
@@ -65,7 +61,7 @@ print("")
 print("Optimizing the aggregated policy .....")
 print("Optimized policy are: ")
 
-optimizePolicy = policy2rule.policy_optimizer(aggregatePolicy)
+optimizePolicy = policy2rule.policy_optimizer([[x] for x in compiledPolicy])
 optimizePolicy = list(map(lambda x: [x], optimizePolicy))
 
 
@@ -80,5 +76,5 @@ print(policy2rule.policy_to_rule(list(optimizePolicy)))
 
 # Save new rules into file
 
-with open(os.path.join('data/', 'generated_rules.txt'), "w") as output_file:
+with open(os.path.join("data/", "generated_rules.txt"), "w") as output_file:
     output_file.write(policy2rule.policy_to_rule(list(optimizePolicy)))

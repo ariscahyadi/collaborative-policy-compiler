@@ -45,10 +45,10 @@ def encodeNum(number, bitwidth):
     """
 
     byte_len = bitwidthToBytes(bitwidth)
-    num_str = '%x' % number
+    num_str = "%x" % number
     if number >= 2 ** bitwidth:
         raise Exception("Number, %d, does not fit in %d bits" % (number, bitwidth))
-    return codecs.decode(('0' * (byte_len * 2 - len(num_str)) + num_str), 'hex_codec')
+    return codecs.decode(("0" * (byte_len * 2 - len(num_str)) + num_str), "hex_codec")
 
 
 def decodeNum(encoded_number):
@@ -58,7 +58,7 @@ def decodeNum(encoded_number):
     :return: integer value
     """
 
-    temp = codecs.encode(encoded_number, 'hex_codec')
+    temp = codecs.encode(encoded_number, "hex_codec")
     return int(temp, 16)
 
 
@@ -92,8 +92,9 @@ def rule_parser(p4table):
         if i <= 1:
             criterion = criterion + str(field[0]) + ","
         else:
-            criterion = criterion + str(decodeIPv4(field[0])) \
-                        + "/" + str(field[1]) + ","
+            criterion = (
+                criterion + str(decodeIPv4(field[0])) + "/" + str(field[1]) + ","
+            )
     return criterion[:-1]
 
 
